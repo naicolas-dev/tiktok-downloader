@@ -185,7 +185,7 @@ fun MainScreen(
         Spacer(modifier = Modifier.height(48.dp))
 
         // HEADER
-        // Title with Gradient "Saver"
+        // Title with Gradient "Downloader"
         Text(
             text = buildAnnotatedString {
                 append("TikTok ")
@@ -194,7 +194,7 @@ fun MainScreen(
                         brush = Brush.horizontalGradient(listOf(TikTokCyan, TikTokPink))
                     )
                 ) {
-                    append("Saver")
+                    append("Downloader")
                 }
             },
             style = MaterialTheme.typography.displayLarge,
@@ -272,13 +272,36 @@ fun MainScreen(
         Spacer(modifier = Modifier.weight(1f))
         
         // FOOTER
-        Text(
-            text = "PoC desenvolvida para fins educacionais.",
-            style = MaterialTheme.typography.labelSmall,
-            color = TextGrayDark,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 24.dp)
-        )
+        val uriHandler = LocalUriHandler.current
+        Row(
+            modifier = Modifier
+                .padding(bottom = 24.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null, // No ripple for text link style
+                    onClick = { uriHandler.openUri("https://github.com/naicolas-dev") }
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Desenvolvido por ",
+                style = MaterialTheme.typography.labelSmall,
+                color = TextGrayDark
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.ic_github),
+                contentDescription = "GitHub",
+                tint = TextGrayDark,
+                modifier = Modifier.size(16.dp)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = "Nicolas Viana Alves",
+                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                color = TextGrayDark
+            )
+        }
     }
 }
 
