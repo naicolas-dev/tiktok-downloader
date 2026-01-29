@@ -13,7 +13,9 @@ Este projeto demonstra habilidades avançadas em desenvolvimento Android, com fo
 
 ## 📸 Demonstração
 
-<img src="img\preview.jpeg" alt="Preview" width="600">
+<p align="center">
+  <img src="img/preview.jpeg" alt="Preview" width="350" style="max-width:100%; height:auto;">
+</p>
 
 ## 🛠 Stack Tecnológica & Arquitetura
 
