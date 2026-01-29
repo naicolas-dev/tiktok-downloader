@@ -5,6 +5,7 @@ import com.naicolasdev.tiktokdownloader.R
 
 import android.app.DownloadManager
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -117,6 +118,15 @@ class MainViewModel : ViewModel() {
         _urlInput.value = url
     }
 
+    /**
+     * Processa uma URL compartilhada de outro app.
+     * Atualiza o campo de input e dispara automaticamente o fetch.
+     */
+    fun processSharedUrl(url: String) {
+        _urlInput.value = url
+        fetchVideoInfo()
+    }
+
     fun fetchVideoInfo() {
         val url = _urlInput.value.trim()
         if (url.isEmpty()) {
@@ -145,9 +155,19 @@ class MainViewModel : ViewModel() {
 // ==================== Main Activity UI ====================
 
 class MainActivity : ComponentActivity() {
+    
+    // ViewModel compartilhado - necessário para acessar em onNewIntent()
+    private val viewModel: MainViewModel by lazy {
+        androidx.lifecycle.ViewModelProvider(this)[MainViewModel::class.java]
+    }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        
+        // Processa o intent inicial (quando app é aberto via share)
+        handleIntent(intent)
+        
         setContent {
             TikTokSaverTheme {
                 AmbientGlowBackground()
@@ -159,8 +179,63 @@ class MainActivity : ComponentActivity() {
                     MainScreen(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(paddingValues)
+                            .padding(paddingValues),
+                        viewModel = viewModel
                     )
+                }
+            }
+        }
+    }
+    
+    /**
+     * Chamado quando a Activity já está rodando e recebe um novo Intent.
+     * Isso acontece com launchMode="singleTask" quando o usuário compartilha
+     * um novo link enquanto o app já está aberto.
+     */
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent) // Atualiza o intent atual
+        handleIntent(intent)
+    }
+    
+    /**
+     * Extrai a URL do TikTok do Intent e processa.
+     */
+    private fun handleIntent(intent: Intent?) {
+        if (intent == null) return
+        
+        val action = intent.action
+        val type = intent.type
+        
+        when {
+            // ACTION_SEND: Compartilhamento de texto (ex: do TikTok)
+            action == Intent.ACTION_SEND && type == "text/plain" -> {
+                val extraText = intent.getStringExtra(Intent.EXTRA_TEXT)
+                val clipData = intent.clipData
+                
+                val text = com.naicolasdev.tiktokdownloader.util.TikTokUrlParser
+                    .extractTextFromIntent(extraText, clipData)
+                
+                val tiktokUrl = com.naicolasdev.tiktokdownloader.util.TikTokUrlParser
+                    .extractTikTokUrl(text)
+                
+                if (tiktokUrl != null) {
+                    viewModel.processSharedUrl(tiktokUrl)
+                } else if (text != null) {
+                    // Texto recebido mas não é URL do TikTok
+                    Toast.makeText(
+                        this,
+                        "Link do TikTok não encontrado no texto compartilhado.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            
+            // ACTION_VIEW: Deep link (ex: clicar em link do TikTok)
+            action == Intent.ACTION_VIEW -> {
+                val uri = intent.data?.toString()
+                if (uri != null && com.naicolasdev.tiktokdownloader.util.TikTokUrlParser.isValidTikTokUrl(uri)) {
+                    viewModel.processSharedUrl(uri)
                 }
             }
         }
@@ -309,9 +384,9 @@ fun downloadVideo(context: Context, videoUrl: String, title: String) {
     if (videoUrl.isEmpty()) return
 
     try {
-        val fileName = "TikTok_Saver_${System.currentTimeMillis()}.mp4"
+        val fileName = "TikTok_Downloader_${System.currentTimeMillis()}.mp4"
         val request = DownloadManager.Request(Uri.parse(videoUrl)).apply {
-            setTitle("TikTok Saver")
+            setTitle("TikTok Downloader")
             setDescription("Baixando MP4...")
             setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
