@@ -12,7 +12,7 @@ A modern, native Android application capable of downloading TikTok videos withou
 - **Smart Clipboard Integration:** Automatically detects copied links from TikTok.
 - **Visual Feedback:** Animated transitions and loading indicators.
 
-## 📸 Demo
+## 📸 Preview
 
 <p align="center">
   <img src="img/preview.jpeg" alt="Preview" width="350" style="max-width:100%; height:auto;">
@@ -67,4 +67,5 @@ Please respect the intellectual property rights of content creators and use this
 ---
 
 Developed by **Nicolas Viana Alves**
+
 
