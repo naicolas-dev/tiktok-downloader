@@ -11,6 +11,10 @@ Este projeto demonstra habilidades avançadas em desenvolvimento Android, com fo
 - **Integração Inteligente com a Área de Transferência:** Detecta automaticamente links do TikTok copiados.
 - **Feedback Visual:** Transições animadas e indicadores de carregamento.
 
+## 📸 Demonstração
+
+<img src="img\preview.jpeg" alt="Preview" width="600">
+
 ## 🛠 Stack Tecnológica & Arquitetura
 
 Este projeto segue a arquitetura recomendada **MVVM (Model-View-ViewModel)**, garantindo separação de responsabilidades e facilidade de testes.
