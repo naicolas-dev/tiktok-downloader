@@ -337,9 +337,12 @@ fun MainScreen(
             if (data != null) {
                 ResultCard(
                     data = data,
-                    onDownloadClick = {
-                        downloadVideo(context, data.play ?: "", data.title ?: "video")
-                    }
+                    onDownloadVideoClick = {
+                        downloadMedia(context, data.play ?: "", data.title ?: "video", MediaType.VIDEO)
+                    },
+                    onDownloadAudioClick = if (data.hasAudio) {
+                        { downloadMedia(context, data.music ?: "", data.title ?: "audio", MediaType.AUDIO) }
+                    } else null
                 )
             }
         }
@@ -380,21 +383,61 @@ fun MainScreen(
     }
 }
 
-fun downloadVideo(context: Context, videoUrl: String, title: String) {
-    if (videoUrl.isEmpty()) return
+/**
+ * Tipos de mídia disponíveis para download
+ */
+enum class MediaType {
+    VIDEO,
+    AUDIO
+}
+
+/**
+ * Função genérica para download de mídia (vídeo ou áudio).
+ * 
+ * @param context Contexto Android
+ * @param url URL da mídia a ser baixada
+ * @param title Título do conteúdo (usado para nome do arquivo)
+ * @param mediaType Tipo de mídia: VIDEO ou AUDIO
+ */
+fun downloadMedia(context: Context, url: String, title: String, mediaType: MediaType) {
+    if (url.isEmpty()) {
+        Toast.makeText(context, "URL inválida", Toast.LENGTH_SHORT).show()
+        return
+    }
 
     try {
-        val fileName = "TikTok_Downloader_${System.currentTimeMillis()}.mp4"
-        val request = DownloadManager.Request(Uri.parse(videoUrl)).apply {
-            setTitle("TikTok Downloader")
-            setDescription("Baixando MP4...")
-            setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
+        val (fileName, directory, mimeType, description) = when (mediaType) {
+            MediaType.VIDEO -> Quadruple(
+                "TikTok_Downloader_${System.currentTimeMillis()}.mp4",
+                Environment.DIRECTORY_MOVIES,
+                "video/mp4",
+                "Baixando MP4..."
+            )
+            MediaType.AUDIO -> Quadruple(
+                "TikTok_Downloader_${System.currentTimeMillis()}.mp3",
+                Environment.DIRECTORY_MUSIC,
+                "audio/mpeg",
+                "Baixando MP3..."
+            )
         }
+
+        val request = DownloadManager.Request(Uri.parse(url)).apply {
+            setTitle("TikTok Downloader")
+            setDescription(description)
+            setMimeType(mimeType)
+            setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            setDestinationInExternalPublicDir(directory, fileName)
+        }
+        
         val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         downloadManager.enqueue(request)
-        Toast.makeText(context, "Download iniciado...", Toast.LENGTH_SHORT).show()
+        
+        val mediaName = if (mediaType == MediaType.VIDEO) "vídeo" else "áudio"
+        Toast.makeText(context, "Download de $mediaName iniciado...", Toast.LENGTH_SHORT).show()
     } catch (e: Exception) {
         Toast.makeText(context, "Erro: ${e.message}", Toast.LENGTH_SHORT).show()
     }
 }
+
+/** Helper data class for download parameters */
+private data class Quadruple<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
