@@ -55,6 +55,8 @@ com.naicolasdev.tiktokdownloader
 
 ## 📝 Licença & Aviso Legal
 
+🔑 **[LICENÇA](LICENSE)**
+
 Este projeto é destinado **exclusivamente para fins educacionais e de portfólio**.  
 Ele atua como um cliente para APIs públicas disponíveis e **não possui qualquer afiliação, endosso ou vínculo** com o TikTok ou a ByteDance.
 
