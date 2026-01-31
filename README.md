@@ -15,7 +15,9 @@ A modern, native Android application capable of downloading TikTok videos withou
 ## 📸 Preview
 
 <p align="center">
-  <img src="img/preview.jpeg" alt="Preview" width="350" style="max-width:100%; height:auto;">
+  <img src="img/preview.jpeg" alt="Preview" width="350">
+  &nbsp;&nbsp;&nbsp;
+  <img src="img/preview2.jpeg" alt="Preview 2" width="350">
 </p>
 
 
