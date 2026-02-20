@@ -15,10 +15,7 @@ data class TikWmData(
     @SerializedName("play") val play: String?,
     @SerializedName("music") val music: String?,
     @SerializedName("author") val author: TikWmAuthor?
-) {
-    /** Retorna true se o áudio estiver disponível para download */
-    val hasAudio: Boolean get() = !music.isNullOrBlank()
-}
+)
 
 data class TikWmAuthor(
     @SerializedName("nickname") val nickname: String?,
