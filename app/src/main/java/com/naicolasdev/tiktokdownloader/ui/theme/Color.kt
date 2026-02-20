@@ -2,24 +2,21 @@ package com.naicolasdev.tiktokdownloader.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Visual Tokens from index.html
+// Minimalist Design Palette (Avoiding Pure Black/White)
+val BgDark = Color(0xFF121212) 
+val SurfaceDark = Color(0xFF18181B) // Zinc 900
+val SurfaceVariantDark = Color(0xFF27272A) // Zinc 800
 
-val BgDark = Color(0xFF030712) // bg-gray-950
-val BgInput = Color(0xFF111827) // bg-gray-900
+val AccentPrimary = Color(0xFF4F46E5) // Indigo 600 (True primary CTA color)
+val AccentSecondary = Color(0xFFA1A1AA) // Zinc 400
+val OnAccentPrimary = Color(0xFFF4F4F5) // Off-white on top of primary
 
-val TikTokPink = Color(0xFFFE2C55) // tiktok-accent
-val TikTokCyan = Color(0xFF25F4EE) // tiktok-cyan
-val TikTokBlack = Color(0xFF000000)
+val TextPrimary = Color(0xFFF4F4F5) // Off-white / Zinc 100
+val TextSecondary = Color(0xFFD4D4D8) // Zinc 300
+val TextTertiary = Color(0xFFA1A1AA) // Zinc 400
 
-val TextWhite = Color(0xFFFFFFFF)
-val TextGray = Color(0xFF9CA3AF) // text-gray-400
-val TextGrayDark = Color(0xFF6B7280) // text-gray-500
+val DividerColor = Color(0xFF3F3F46) // Zinc 700
+val BorderColor = Color(0xFF27272A) // Zinc 800
 
-val GlassBorder = Color(0x1AFFFFFF) // White 10%
-val GlassBg = Color(0x08FFFFFF) // White 3% (Estimated for 0.03)
-
-// Gradient Colors
-val GradientStart = TikTokCyan
-val GradientEnd = TikTokPink
-val ButtonStart = TikTokPink
-val ButtonEnd = Color(0xFFE62045) // to-[#e62045]
+val ErrorColor = Color(0xFFEF4444) // Red 500
+val ErrorBg = Color(0xFF450A0A) // Red 950

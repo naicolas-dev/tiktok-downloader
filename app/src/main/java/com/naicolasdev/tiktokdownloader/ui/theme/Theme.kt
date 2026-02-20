@@ -7,14 +7,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorScheme = darkColorScheme(
-    primary = TikTokPink,
-    secondary = TikTokCyan,
+    primary = AccentPrimary,
+    secondary = AccentSecondary,
     background = BgDark,
-    surface = BgDark,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = TextWhite,
-    onSurface = TextWhite
+    surface = SurfaceDark,
+    surfaceVariant = SurfaceVariantDark,
+    onPrimary = OnAccentPrimary,
+    onSecondary = BgDark,
+    onBackground = TextPrimary,
+    onSurface = TextPrimary,
+    onSurfaceVariant = TextPrimary,
+    error = ErrorColor,
+    onError = TextPrimary,
+    errorContainer = ErrorBg,
+    onErrorContainer = ErrorColor
 )
 
 @Composable

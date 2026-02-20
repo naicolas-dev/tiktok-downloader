@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.naicolasdev.tiktokdownloader.TikWmData
+import com.naicolasdev.tiktokdownloader.SocialMediaData
 import com.naicolasdev.tiktokdownloader.ui.components.GlassPanel
 import com.naicolasdev.tiktokdownloader.ui.theme.*
 
@@ -51,7 +51,7 @@ import com.naicolasdev.tiktokdownloader.ui.theme.*
  */
 @Composable
 fun ResultCard(
-    data: TikWmData,
+    data: SocialMediaData,
     onDownloadVideoClick: () -> Unit,
     onDownloadAudioClick: (() -> Unit)? = null
 ) {
@@ -61,7 +61,7 @@ fun ResultCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(if (onDownloadAudioClick != null) 180.dp else 140.dp)
+                .height(if (onDownloadAudioClick != null) 196.dp else 156.dp)
         ) {
             // Left: Cover Image
             Box(
@@ -69,11 +69,11 @@ fun ResultCard(
                     .width(96.dp)
                     .fillMaxHeight()
                     .clip(RoundedCornerShape(8.dp))
-                    .background(Color(0xFF1F2937))
+                    .background(SurfaceVariantDark)
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(data.cover)
+                        .data(data.coverUrl ?: "") // Fallback for null cover
                         .crossfade(true)
                         .build(),
                     contentDescription = "Cover",
@@ -96,7 +96,7 @@ fun ResultCard(
                     Text(
                         text = data.title ?: "Sem título",
                         style = MaterialTheme.typography.bodyMedium.copy(
-                            color = Color(0xFFE5E7EB),
+                            color = TextPrimary,
                             fontWeight = FontWeight.Medium
                         ),
                         maxLines = 2,
@@ -111,13 +111,13 @@ fun ResultCard(
                         Box(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(4.dp))
-                                .background(TikTokCyan.copy(alpha = 0.1f))
+                                .background(AccentPrimary.copy(alpha = 0.1f))
                                 .padding(horizontal = 6.dp, vertical = 2.dp)
                         ) {
                             Text(
                                 text = "HD",
                                 style = MaterialTheme.typography.labelSmall.copy(
-                                    color = TikTokCyan,
+                                    color = AccentPrimary,
                                     fontWeight = FontWeight.Bold
                                 )
                             )
@@ -128,7 +128,7 @@ fun ResultCard(
                         Text(
                             text = "Sem marca d'água",
                             style = MaterialTheme.typography.labelSmall.copy(
-                                color = TextGrayDark
+                                color = TextSecondary
                             )
                         )
                     }
@@ -141,24 +141,24 @@ fun ResultCard(
                         onClick = onDownloadVideoClick,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(40.dp),
+                            .height(48.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.White,
-                            contentColor = Color.Black
+                            containerColor = AccentPrimary,
+                            contentColor = OnAccentPrimary
                         ),
-                        shape = RoundedCornerShape(8.dp)
+                        shape = RoundedCornerShape(12.dp)
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
                                 imageVector = Icons.Default.Download,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp)
+                                contentDescription = "Salvar Vídeo MP4",
+                                modifier = Modifier.size(18.dp)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "Baixar MP4",
+                                text = "Salvar Vídeo",
                                 style = MaterialTheme.typography.labelLarge.copy(
-                                    color = Color.Black,
+                                    color = OnAccentPrimary,
                                     fontSize = 14.sp
                                 )
                             )
@@ -173,21 +173,22 @@ fun ResultCard(
                             onClick = onDownloadAudioClick,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(40.dp),
+                                .height(48.dp),
                             colors = ButtonDefaults.outlinedButtonColors(
-                                contentColor = TikTokPink
+                                contentColor = TextPrimary
                             ),
-                            shape = RoundedCornerShape(8.dp)
+                            border = androidx.compose.foundation.BorderStroke(1.dp, BorderColor),
+                            shape = RoundedCornerShape(12.dp)
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     imageVector = Icons.Default.MusicNote,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(16.dp)
+                                    contentDescription = "Salvar Áudio MP3",
+                                    modifier = Modifier.size(18.dp)
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = "Baixar MP3",
+                                    text = "Salvar Áudio (MP3)",
                                     style = MaterialTheme.typography.labelLarge.copy(
                                         fontSize = 14.sp
                                     )

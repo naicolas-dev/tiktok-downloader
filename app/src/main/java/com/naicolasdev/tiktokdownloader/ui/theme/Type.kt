@@ -31,34 +31,34 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 36.sp,
         letterSpacing = (-1).sp, // tracking-tight
-        color = TextWhite
+        color = TextPrimary
     ),
     // Button Text
     labelLarge = TextStyle(
         fontFamily = OutfitFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
-        color = TextWhite
+        color = TextPrimary
     ),
     // Input Text
     bodyLarge = TextStyle(
         fontFamily = OutfitFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        color = TextWhite
+        color = TextPrimary
     ),
     // Placeholder / Subtitles
     bodyMedium = TextStyle(
         fontFamily = OutfitFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        color = TextGray
+        color = TextSecondary
     ),
     // Badges / Small Text
     labelSmall = TextStyle(
         fontFamily = OutfitFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
-        color = TextGray
+        color = TextSecondary
     )
 )
